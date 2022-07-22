@@ -1,4 +1,4 @@
-name: Testing-Building
+name: Building
 
 on:
   workflow_dispatch:
@@ -38,11 +38,7 @@ jobs:
           sudo python3 setup.py install
           cd ..
           echo "Buildozer was successfully installed!" 
-          sudo apt-get install aidl 
-          which aidl /usr/bin/aidl
-          cp /usr/bin/aidl ~/.buildozer/android/platform/android-sdk/build-tools/31.0.0/
-          chmod 777 ~/.buildozer/android/platform/android-sdk/build-tools/31.0.0/aidl
-        
+          
       - name: Building Apk
         run:  | 
           python3 ch_version.py
