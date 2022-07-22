@@ -3,7 +3,7 @@ name: Testing-Building
 on:
   workflow_dispatch:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   Build:
