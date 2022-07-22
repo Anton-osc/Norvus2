@@ -38,7 +38,7 @@ jobs:
           sudo python3 setup.py install
           cd ..
           echo "Buildozer was successfully installed!" 
-          
+
       - name: Building Apk
         run:  | 
           python3 ch_version.py
@@ -46,9 +46,11 @@ jobs:
           echo "The Application was successfully built!"
         
       - name: Deliver the app
+        env:
+          text: '[Report: App was successfully built]'
         run:  |
           python3 delivery.py ${{ secrets.TOKEN }}
-          python3 notification_manager.py ${{ secrets.TOKEN }} ${{ secrets.CHAT_ID }} [Report: App was successfully built]
+          python3 notification_manager.py ${{ secrets.TOKEN }} ${{ secrets.CHAT_ID }} $text
           echo "Apk was successfully delivered"
 
           
