@@ -42,7 +42,7 @@ jobs:
       - name: Building Apk
         run:  | 
           python3 ch_version.py
-          buildozer android release 
+          buildozer android debug 
           echo "The Application was successfully built!"
         
       - name: Deliver the app
