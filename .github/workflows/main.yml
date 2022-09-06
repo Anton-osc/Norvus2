@@ -42,12 +42,12 @@ jobs:
       - name: Building Apk
         run:  | 
           python3 ch_version.py
-          buildozer android debug
+          buildozer android debug 
           echo "The Application was successfully built!"
         
       - name: Deliver the app
         env:
-          text: 'Report: App was successfully built'
+          text: "Report:⠀App⠀was⠀successfully⠀built"
         run:  |
           python3 delivery.py ${{ secrets.TOKEN }}
           python3 notification_manager.py ${{ secrets.TOKEN }} ${{ secrets.CHAT_ID }} $text
