@@ -28,7 +28,7 @@ source.exclude_exts =
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-#version = 6.2
+#version = 210.21225
 
 # (str) Application versioning (method 2)
 version.regex = __version__ = ['"](.*)['"]
@@ -49,7 +49,7 @@ presplash.filename = assets/preview.png
 icon.filename = assets/logo.ico
 
 # (str) Supported orientation (one of landscape, sensorLandscape, portrait or all)
-orientation = sensorLandscape
+orientation = landscape
 
 # (list) List of service to declare
 #services = NAME:ENTRYPOINT_TO_PY,NAME2:ENTRYPOINT2_TO_PY
@@ -133,7 +133,7 @@ android.permissions = INTERNET
 # agreements. This is intended for automation only. If set to False,
 # the default, you will be shown the license when first running
 # buildozer.
-android.accept_sdk_license = True
+# android.accept_sdk_license = False
 
 # (str) Android entry point, default is ok for Kivy-based app
 #android.entrypoint = org.renpy.android.PythonActivity

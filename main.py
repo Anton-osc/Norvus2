@@ -20,52 +20,61 @@ import datetime
 from datetime import datetime as dt
 from random import randint
 
-font_name = 'fonts/digital-7.ttf'
-
-Config.set('kivy', 'default_font', font_name)
 #VARS
-CITY = 'Smila'
-def getbtc():
-    req1 = requests.get('https://blockchain.info/ticker')
-    req01 = req1.json()
-    blockchain = json.dumps(req01['USD'] ['buy'], indent=2)
-    blockchain = str(blockchain)
-    return blockchain
+CITY = 'Smila'  # Add settings, add opportunity to change city
 
 class NorVusApp(App):
     def build(self):
-        self.color = '[color=00FFFF]'
-        self.x, self.y = Window.size
-        self.layout = BoxLayout(orientation='horizontal')
-        self.layout2 = FloatLayout(size=(Window.size))
-        ##
-        self.image_mist = AsyncImage(source='http://openweathermap.org/img/wn/50d@2x.png', pos=(490, self.y // 2 - 450))
-        self.image_rain = Image(source='IconsW/rain2.png', pos=(490, self.y // 2 - 450))
-        self.image_snow = Image(source='IconsW/snow2.png', pos=(490, self.y // 2 - 450))
-        self.image_sun = Image(source='IconsW/sun2.png', pos=(490, self.y // 2 - 450))
-        self.image_cloud = Image(source='IconsW/cloud2.png', pos=(490, self.y // 2 - 450))
-        self.image_grad = Image(source='IconsW/grad2.png', pos=(625, self.y // 2 - 265))
-        self.image_thunder = AsyncImage(source='http://openweathermap.org/img/wn/11d@2x.png', pos=(490, self.y // 2 - 450))
-        self.image_internetError = Image(source='IconsW/internet_error.png', pos=(490, self.y // 2 - 450))
-        ##
-        self.event3 = Clock.schedule_interval(lambda dt: self.detect_screen(), 0.5)
-
-        ##
+        #Vars
         self.timer1 = False
         self.timer2 = False
         self.timer3 = False
         self.timer4 = False
-
-
         ##
-
+        self.color = '[color=00FFFF]'
+        self.x, self.y = Window.size
+        ##
+        self.layout2 = FloatLayout(size=(Window.size))
+        ##
+        if self.x * self.y <= 1000000:
+            pos_image = (490, self.y // 2 - 450)
+            pos_thermometer = (625, self.y // 2 - 265)
+            pos_button2 = (270, self.y // 2 + 30)
+            pos_button3 = (20, self.y - 500)
+            pos_button4 = (270, self.y // 2 - 200)
+            font_size_label2 = '260sp'
+            pos_label2 = (-145, self.y // 2 - 350)      # Time
+            pos_label3 = (490, self.y // 2 - 250)       # Temperature
+            pos_label4 = (490, self.y // 2 - 350)       # Separator
+            pos_label5 = (460, self.y // 2 - 620)       # WeekDay
+        elif self.x * self.y >= 2400000:
+            pos_image = (800, self.y // 2 - 550)
+            pos_thermometer = (980, self.y // 2 - 350)
+            pos_button2 = (420, self.y // 2 + 30)
+            pos_button3 = (20, self.y - 500)
+            font_size_label2 = '280sp'
+            pos_button4 = (420, self.y // 2 - 400)
+            pos_label2 = (-380, self.y // 2 - 520)      # Time
+            pos_label3 = (800, self.y // 2 - 350)       # Temperature
+            pos_label4 = (800, self.y // 2 - 450)       # Separator
+            pos_label5 = (750, self.y // 2 - 850)       # WeekDay
+        ##
+        self.image_mist = AsyncImage(source='http://openweathermap.org/img/wn/50d@2x.png', pos=pos_image)
+        self.image_rain = Image(source='IconsW/rain2.png', pos=pos_image)
+        self.image_snow = Image(source='IconsW/snow2.png', pos=pos_image)
+        self.image_sun = Image(source='IconsW/sun2.png', pos=pos_image)
+        self.image_cloud = Image(source='IconsW/cloud2.png', pos=pos_image)
+        self.image_grad = Image(source='IconsW/grad2.png', pos=pos_thermometer)
+        self.image_thunder = AsyncImage(source='http://openweathermap.org/img/wn/11d@2x.png', pos=pos_image)
+        self.image_internetError = Image(source='IconsW/internet_error.png', pos=pos_image)
+        ##
         self.btn2 = Button(text ="Currency",
             font_size ="40sp",
             background_color =(1, 1, 1, 1),
             color =(1, 1, 1, 1),
             size =(50, 50),
             size_hint =(.6, .2),
-            pos =(250, self.y // 2 + 30))
+            pos=pos_button2)
 
         self.btn3 = Button(text ="",
             font_size ="10sp",
@@ -73,7 +82,7 @@ class NorVusApp(App):
             color =(1, 1, 1, 0.006),
             size =(1, 1),
             size_hint =(.200, .700),
-            pos =(20, self.y-500))
+            pos=pos_button3) 
 
         self.btn4 = Button(text ="MeteoStation",
             font_size ="40sp",
@@ -81,23 +90,23 @@ class NorVusApp(App):
             color =(1, 1, 1, 1),
             size =(50, 50),
             size_hint =(.6, .2),
-            pos =(250, self.y // 2 - 200))
-
+            pos=pos_button4)
+        ##
         self.btn2.bind(on_press=self.callback2)
         self.btn3.bind(on_press=self.callback3)
         self.btn4.bind(on_press=self.callback4)
-
         ##
         self.label = Label(text='[font=fonts/digital-7.ttf]' + self.color + escape_markup(self.update_info()) + '[/color][/font]', font_size='70sp', markup=True)
-        self.label2 = Label(text='[font=fonts/digital-7.ttf]' + '[color=FFFFFF]' + escape_markup(self.update_time()) + '[/color][/font]', font_size='260sp', pos =(-145, self.y // 2 - 350), markup=True)
-        self.label3 = Label(text='[font=fonts/digital-7.ttf]' + '[color=00FFFF]' + escape_markup(self.temperature()) + '[/color][/font]', font_size='70sp', pos =(490, self.y // 2 - 250), markup=True)
-        self.label4 = Label(text='[font=fonts/digital-7.ttf]' + '[color=00FFFF]' + '------' + '[/color][/font]', font_size='30sp', pos =(490, self.y // 2 - 350), markup=True)
-        self.label5 = Label(text='[font=fonts/roboto_thin.ttf]' + '[color=00FFFF]' + escape_markup(self.week_day()) + '[/color][/font]', font_size='30sp', pos =(460, self.y // 2 - 620), markup=True)
+        self.label2 = Label(text='[font=fonts/digital-7.ttf]' + '[color=FFFFFF]' + escape_markup(self.update_time()) + '[/color][/font]', font_size=font_size_label2, pos = pos_label2, markup=True)
+        self.label3 = Label(text='[font=fonts/digital-7.ttf]' + '[color=00FFFF]' + escape_markup(self.temperature()) + '[/color][/font]', font_size='70sp', pos = pos_label3, markup=True)
+        self.label4 = Label(text='[font=fonts/digital-7.ttf]' + '[color=00FFFF]' + '------' + '[/color][/font]', font_size='30sp', pos = pos_label4, markup=True)
+        self.label5 = Label(text='[font=fonts/roboto_thin.ttf]' + '[color=00FFFF]' + escape_markup(self.week_day()) + '[/color][/font]', font_size='30sp', pos = pos_label5, markup=True)
         ##
         self.layout2.add_widget(self.btn2)
         self.layout2.add_widget(self.btn4)
         ##
         return self.layout2
+
     def update(self):
         self.label.text = '[font=fonts/digital-7.ttf]' + self.color + escape_markup(self.update_info()) + '[/color][/font]'
 
@@ -105,12 +114,13 @@ class NorVusApp(App):
         self.label2.text = '[font=fonts/digital-7.ttf]' + '[color=FFFFFF]' + escape_markup(self.update_time()) + '[/color][/font]'
 
     def update_temperature(self):
-        self.label3.text = '[font=fonts/digital-7.ttf]' + '[color=00FFFF]' + escape_markup(self.temperature()) + '[/color][/font]' + '[color=00FFFF][size=90]' + '°' + '[/size]'#[size=80]' + ' C' + '[/color][/size]'
+        self.label3.text = '[font=fonts/digital-7.ttf]' + '[color=00FFFF]' + escape_markup(self.temperature()) + '[/color][/font]' + '[color=00FFFF][size=90]' + '°' + '[/size]'
 
     def update_week_day(self):
         self.label5.text = '[font=fonts/roboto_thin.ttf]' + '[color=00FFFF]' + escape_markup(self.week_day()) + '[/color][/font]'
 
     def callback2(self, event):
+        '''Switch to Currency'''
         self.color = '[color=00FFFF]'
         self.update()
         self.layout2.clear_widgets()
@@ -120,6 +130,7 @@ class NorVusApp(App):
         self.what_update()
 
     def callback3(self, event):
+        '''Switch to Main Menu'''
         self.layout2.clear_widgets()
         self.layout2.add_widget(self.btn2)
         self.layout2.add_widget(self.btn4)
@@ -136,6 +147,7 @@ class NorVusApp(App):
         self.timer2 = False
 
     def callback4(self, event):
+        '''Switch to MeteoStation'''
         self.layout2.clear_widgets()
         self.update_temperature()
         self.layout2.add_widget(self.btn3)
@@ -150,6 +162,7 @@ class NorVusApp(App):
         self.what_update()    
 
     def what_update(self):
+        '''Detecting in which section we are'''
         if self.timer4 == True:
             self.event = Clock.schedule_interval(lambda dt: self.update2_time(), 0.5)
             self.event4 = Clock.schedule_interval(lambda dt: self.update_temperature(), 60)
@@ -158,9 +171,9 @@ class NorVusApp(App):
 
         if self.timer1 == True:
             self.event2 = Clock.schedule_interval(lambda dt: self.update(), 60)
-
-        
+  
     def temperature(self):
+        '''Get temperature data to display it'''
         global CITY
         try:
             apiKey = '2a4ae60457302d705c3d431e1e465c4c'
@@ -179,12 +192,12 @@ class NorVusApp(App):
             return str('')
 
     def weather(self):
+        '''Get weather data to display picture'''
         global CITY
         try:
             apiKey = '2a4ae60457302d705c3d431e1e465c4c'
             cityName = CITY
             url = 'http://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&appid=' + apiKey 
-
 
             response = requests.get(url)
             response = response.json()
@@ -261,10 +274,8 @@ class NorVusApp(App):
             self.layout2.add_widget(self.image_grad)
             self.layout2.add_widget(self.label5)
 
-
-
     def week_day(self):
-
+        '''Identify the week day'''
         week_Day = ''
         day = datetime.datetime.today().weekday()
         if day == 0:
@@ -286,8 +297,6 @@ class NorVusApp(App):
 
         return week_Day
 
-
-
     def getbtc(self):
     	try:
             req1 = requests.get('https://blockchain.info/ticker')
@@ -304,11 +313,10 @@ class NorVusApp(App):
             blockchain = blockchain + '\n\n\n\n' + eter
             return blockchain
     	except:
-
             return str('Internet Lost!')
 
     def update_info(self):
-        now = datetime.datetime.now()
+        '''Updating currency information'''
         self.btc = self.getbtc()
         return self.btc
 
