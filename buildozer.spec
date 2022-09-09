@@ -7,7 +7,7 @@ title = NorVus
 package.name = norvus
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = https://www.instagram.com/vffssociety/
+package.domain = org.test
 
 # (str) Source code where the main.py live
 source.dir = .
