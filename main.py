@@ -26,6 +26,7 @@ CITY = 'Smila'  # Add settings, add opportunity to change city
 class NorVusApp(App):
     def build(self):
         #Vars
+        self.EVENT = 'event' # To use callback function without pressing buttons
         self.timer1 = False
         self.timer2 = False
         self.timer3 = False
@@ -102,10 +103,10 @@ class NorVusApp(App):
         self.label4 = Label(text='[font=fonts/digital-7.ttf]' + '[color=00FFFF]' + '------' + '[/color][/font]', font_size='30sp', pos = pos_label4, markup=True)
         self.label5 = Label(text='[font=fonts/roboto_thin.ttf]' + '[color=00FFFF]' + escape_markup(self.week_day()) + '[/color][/font]', font_size='30sp', pos = pos_label5, markup=True)
         ##
-        self.layout2.add_widget(self.btn2)
-        self.layout2.add_widget(self.btn4)
+        self.callback3(self.EVENT)
         ##
         return self.layout2
+
 
     def update(self):
         self.label.text = '[font=fonts/digital-7.ttf]' + self.color + escape_markup(self.update_info()) + '[/color][/font]'

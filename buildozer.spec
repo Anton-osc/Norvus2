@@ -7,7 +7,7 @@ title = NorVus
 package.name = norvus
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = org.test
+package.domain = https://www.instagram.com/vffssociety/
 
 # (str) Source code where the main.py live
 source.dir = .
@@ -22,7 +22,7 @@ source.include_patterns = fonts/*,IconsW/*, assets/*
 source.exclude_exts = 
 
 # (list) List of directory to exclude (let empty to not exclude anything)
-#source.exclude_dirs = tests, bin, venv, 
+#source.exclude_dirs = tests, bin, venv, For_Files, Github
 
 # (list) List of exclusions using pattern matching
 #source.exclude_patterns = license,images/*/*.jpg
@@ -49,7 +49,7 @@ presplash.filename = assets/preview.png
 icon.filename = assets/logo.ico
 
 # (str) Supported orientation (one of landscape, sensorLandscape, portrait or all)
-orientation = landscape
+orientation = sensorLandscape
 
 # (list) List of service to declare
 #services = NAME:ENTRYPOINT_TO_PY,NAME2:ENTRYPOINT2_TO_PY
